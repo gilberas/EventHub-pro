@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Outfit', system-ui, sans-serif;
+  --font-display: 'Fraunces', Georgia, serif;
+
+  --color-void: #07070f;
+  --color-surface: #111120;
+  --color-elevated: #191928;
+  --color-purple: #a855f7;
+  --color-purple-dim: #7c3aed;
+  --color-purple-glow: #c084fc;
+  --color-pink: #ec4899;
+  --color-muted: #6b6b96;
+  --color-ghost: #1c1c2e;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+}
+
+* {
+  scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  background-color: #07070f;
+  color: #f0effb;
+  font-family: 'Outfit', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-display {
+  font-family: 'Fraunces', Georgia, serif;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-btn {
+  background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+  transition: opacity 0.2s, transform 0.15s;
+}
+
+.gradient-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.gradient-btn:active {
+  transform: translateY(0);
+}
+
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(168, 85, 247, 0.12);
+}
+
+.img-hover {
+  transition: transform 0.4s ease;
+}
+
+.card-hover:hover .img-hover {
+  transform: scale(1.04);
+}
+
+.hero-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(7, 7, 15, 1) 0%,
+    rgba(7, 7, 15, 0.88) 25%,
+    rgba(7, 7, 15, 0.5) 60%,
+    rgba(7, 7, 15, 0.15) 100%
+  );
+}
+
+.glow-purple {
+  box-shadow: 0 0 40px rgba(168, 85, 247, 0.25);
+}
+
+.border-rim {
+  border-color: rgba(255, 255, 255, 0.07);
+}
+
+.bg-rim {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.seat-available {
+  cursor: pointer;
+  transition: fill 0.12s;
+}
+
+.seat-available:hover {
+  fill: #c084fc;
+}

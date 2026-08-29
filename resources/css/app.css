@@ -1,0 +1,252 @@
+@import "tailwindcss";
+
+@theme {
+    --font-sans: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+    --font-serif: 'Fraunces', Georgia, serif;
+    --font-display: 'Fraunces', Georgia, serif;
+
+    --radius: 0.875rem;
+    --radius-sm: calc(var(--radius) - 4px);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) + 4px);
+    --radius-2xl: calc(var(--radius) + 8px);
+    --radius-3xl: calc(var(--radius) + 12px);
+
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+
+    /* Figma design system tokens */
+    --color-void: #07070f;
+    --color-surface: #111120;
+    --color-elevated: #191928;
+    --color-purple: #a855f7;
+    --color-purple-dim: #7c3aed;
+    --color-purple-glow: #c084fc;
+    --color-pink: #ec4899;
+    --color-ghost: #1c1c2e;
+    --color-success: #10b981;
+    --color-warning: #f59e0b;
+
+    /* Legacy palette aliases for dashboard backward compatibility */
+    --color-brand-50: #f3e8ff;
+    --color-brand-100: #e9d5ff;
+    --color-brand-200: #d8b4fe;
+    --color-brand-300: #c084fc;
+    --color-brand-400: #a855f7;
+    --color-brand-500: #9333ea;
+    --color-brand-600: #7c3aed;
+    --color-brand-700: #6d28d9;
+    --color-brand-800: #5b21b6;
+    --color-brand-900: #4c1d95;
+    --color-brand-950: #2e1065;
+
+    --color-surface-50: #f8fafc;
+    --color-surface-100: #f1f5f9;
+    --color-surface-200: #e2e8f0;
+    --color-surface-300: #cbd5e1;
+    --color-surface-400: #94a3b8;
+    --color-surface-500: #64748b;
+    --color-surface-600: #475569;
+    --color-surface-700: #334155;
+    --color-surface-800: #1e293b;
+    --color-surface-900: #0f172a;
+    --color-surface-950: #020617;
+
+    --color-accent-50: #fdf4ff;
+    --color-accent-100: #fae8ff;
+    --color-accent-200: #f5d0fe;
+    --color-accent-300: #f0abfc;
+    --color-accent-400: #e879f9;
+    --color-accent-500: #d946ef;
+    --color-accent-600: #c026d3;
+    --color-accent-700: #a21caf;
+    --color-accent-800: #86198f;
+    --color-accent-900: #701a75;
+    --color-accent-950: #4a044e;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+    --background: #07070f;
+    --foreground: #f0effb;
+
+    --card: #111120;
+    --card-foreground: #f0effb;
+    --popover: #111120;
+    --popover-foreground: #f0effb;
+
+    --primary: #a855f7;
+    --primary-foreground: #ffffff;
+
+    --secondary: #1c1c2e;
+    --secondary-foreground: #f0effb;
+
+    --muted: #6b6b96;
+    --muted-foreground: #6b6b96;
+
+    --accent: #ec4899;
+    --accent-foreground: #ffffff;
+
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+
+    --border: rgba(255, 255, 255, 0.07);
+    --input: rgba(255, 255, 255, 0.07);
+    --ring: #a855f7;
+
+    --color-accent-dynamic: #a855f7;
+    --color-accent-dynamic-foreground: #ffffff;
+}
+
+.light,
+:root.light {
+    --background: #ffffff;
+    --foreground: #1a1a2e;
+
+    --card: #f8f9fa;
+    --card-foreground: #1a1a2e;
+    --popover: #ffffff;
+    --popover-foreground: #1a1a2e;
+
+    --primary: #a855f7;
+    --primary-foreground: #ffffff;
+
+    --secondary: #f1f5f9;
+    --secondary-foreground: #1a1a2e;
+
+    --muted: #94a3b8;
+    --muted-foreground: #64748b;
+
+    --accent: #ec4899;
+    --accent-foreground: #ffffff;
+
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+
+    --border: rgba(0, 0, 0, 0.08);
+    --input: rgba(0, 0, 0, 0.08);
+    --ring: #a855f7;
+
+    --color-accent-dynamic: #a855f7;
+    --color-accent-dynamic-foreground: #ffffff;
+}
+
+@layer base {
+    * {
+        border-color: var(--color-border);
+    }
+
+    body {
+        background-color: var(--color-background);
+        color: var(--color-foreground);
+        font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0px 1000px var(--color-background) inset !important;
+        -webkit-text-fill-color: var(--color-foreground) !important;
+        caret-color: var(--color-foreground);
+        transition: background-color 5000s ease-in-out 0s;
+    }
+}
+
+@utility container {
+    margin-inline: auto;
+    padding-inline: 1rem;
+
+    @media (width >= 40rem) {
+        padding-inline: 1.5rem;
+    }
+
+    @media (width >= 64rem) {
+        padding-inline: 2rem;
+    }
+}
+
+@utility no-scrollbar {
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+/* Figma design utility classes */
+@utility gradient-text {
+    background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+@utility gradient-btn {
+    background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+    transition: opacity 0.2s, transform 0.15s;
+
+    &:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+@utility card-hover {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 60px rgba(168, 85, 247, 0.12);
+    }
+}
+
+@utility img-hover {
+    transition: transform 0.4s ease;
+}
+
+@utility hero-overlay {
+    background: linear-gradient(
+        to top,
+        rgba(7, 7, 15, 1) 0%,
+        rgba(7, 7, 15, 0.88) 25%,
+        rgba(7, 7, 15, 0.5) 60%,
+        rgba(7, 7, 15, 0.15) 100%
+    );
+}
+
+@utility glow-purple {
+    box-shadow: 0 0 40px rgba(168, 85, 247, 0.25);
+}
+
+@utility border-rim {
+    border-color: rgba(255, 255, 255, 0.07);
+}
+
+@utility bg-rim {
+    background: rgba(255, 255, 255, 0.04);
+}
