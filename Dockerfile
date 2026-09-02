@@ -1,41 +1,50 @@
-FROM composer:2.8 AS composer
+FROM php:8.3-fpm-alpine
 
-WORKDIR /build
+# System dependencies
+RUN apk add --no-cache \
+    nginx \
+    supervisor \
+    git \
+    curl \
+    unzip \
+    zip \
+    libpng-dev \
+    libzip-dev \
+    libxml2-dev \
+    oniguruma-dev \
+    nodejs \
+    npm
 
-COPY composer.json composer.lock ./
+# PHP extensions Laravel commonly needs
+RUN docker-php-ext-install \
+    pdo \
+    pdo_mysql \
+    zip \
+    gd \
+    bcmath \
+    mbstring \
+    xml
 
-RUN composer install \
-    --no-dev \
-    --no-interaction \
-    --no-progress \
-    --no-scripts \
-    --optimize-autoloader
+# Install Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-FROM node:22-alpine AS node
+WORKDIR /var/www/html
 
-WORKDIR /build
-
-COPY package.json package-lock.json ./
-RUN npm ci
-
+# Copy application code
 COPY . .
-RUN npm run build
 
-FROM serversideup/php:8.4-fpm-nginx AS app
+# Install PHP dependencies
+RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-USER root
+# Install & build frontend assets (Vite/Tailwind)
+RUN npm install && npm run build
 
-COPY --from=composer /build/vendor /var/www/html/vendor
-COPY --from=node /build/public/build /var/www/html/public/build
-COPY --from=node /build/bootstrap/ssr /var/www/html/bootstrap/ssr
-COPY . /var/www/html
+# Copy nginx and supervisor configs
+COPY docker/nginx.conf /etc/nginx/nginx.conf
+COPY docker/supervisord.conf /etc/supervisord.conf
+COPY docker/start.sh /start.sh
+RUN chmod +x /start.sh
 
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache && \
-    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+EXPOSE 10000
 
-USER www-data
-
-EXPOSE 8080
-
-HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
-    CMD php artisan health:check || exit 1
+CMD ["/start.sh"]
