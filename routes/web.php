@@ -15,11 +15,7 @@ use App\Domain\Payments\Controllers\PaymentController;
 use App\Domain\Tickets\Controllers\TicketController;
 use App\Domain\Tickets\Controllers\TicketScannerController;
 use App\Domain\Venues\Controllers\VenueController;
-use App\Http\Controllers\Auth\ConfirmablePasswordController;
-use App\Http\Controllers\Auth\EmailVerificationNotificationController;
-use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\PasswordController;
-use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\ProfileController;
 use App\Shared\Enums\RoleEnum;
 use Illuminate\Support\Facades\Route;
@@ -31,21 +27,6 @@ Route::get('events/{slug}', [EventController::class, 'show'])->name('events.show
 Route::get('events/{event:slug}/sessions/{session}/book', [BookingController::class, 'selectSeats'])->name('events.sessions.book');
 
 Route::middleware('auth')->group(function () {
-    // Email verification
-    Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
-        ->name('verification.notice');
-    Route::get('verify-email/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
-        ->middleware(['signed', 'throttle:6,1'])
-        ->name('verification.verify');
-    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-        ->middleware('throttle:6,1')
-        ->name('verification.send');
-
-    // Password confirmation
-    Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
-        ->name('password.confirm');
-    Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
-
     // Profile management (Breeze Inertia, not Fortify)
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
