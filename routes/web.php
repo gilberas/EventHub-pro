@@ -15,7 +15,6 @@ use App\Domain\Payments\Controllers\PaymentController;
 use App\Domain\Tickets\Controllers\TicketController;
 use App\Domain\Tickets\Controllers\TicketScannerController;
 use App\Domain\Venues\Controllers\VenueController;
-use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\ProfileController;
 use App\Shared\Enums\RoleEnum;
 use Illuminate\Support\Facades\Route;
@@ -31,9 +30,6 @@ Route::middleware('auth')->group(function () {
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    // Password update
-    Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 
     // Event management
     Route::post('events', [EventController::class, 'store'])->name('events.store');
