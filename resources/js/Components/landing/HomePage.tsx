@@ -13,7 +13,7 @@ const DEFAULT_HERO = {
     status: 'published',
     is_featured: true,
     trending_score: null,
-    cover_url: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1600&h=900&fit=crop&auto=format',
+    cover_url: '/images/landing/hero-crowd.jpg',
     organization_name: 'EventHub Pro',
     next_session_date: null,
 };
@@ -79,7 +79,7 @@ function EventCard({
                 <img
                     src={
                         event.cover_url ||
-                        'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1200&h=700&fit=crop&auto=format'
+                        '/images/landing/event-festival.jpg'
                     }
                     alt={event.title}
                     loading="lazy"
@@ -165,7 +165,7 @@ function HeroEvent({ event }: { event: PublicEvent }) {
             <img
                 src={
                     event.cover_url ||
-                    'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1200&h=700&fit=crop&auto=format'
+                        '/images/landing/event-festival.jpg'
                 }
                 alt={event.title}
                 className="absolute inset-0 w-full h-full object-cover"
@@ -508,19 +508,20 @@ export default function HomePage({
                                     </div>
                                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
                                         {[
-                                            { name: 'Concerts', icon: '🎵', color: 'from-purple/20 to-purple/5' },
-                                            { name: 'Festivals', icon: '🎪', color: 'from-pink/20 to-pink/5' },
-                                            { name: 'Conferences', icon: '🎤', color: 'from-blue/20 to-blue/5' },
-                                            { name: 'Sports', icon: '⚽', color: 'from-green/20 to-green/5' },
-                                            { name: 'Workshops', icon: '🛠', color: 'from-yellow/20 to-yellow/5' },
+                                            { name: 'Concerts', icon: '🎵', color: 'from-purple/20 to-purple/5', img: '/images/landing/event-jazz.jpg' },
+                                            { name: 'Festivals', icon: '🎪', color: 'from-pink/20 to-pink/5', img: '/images/landing/event-festival.jpg' },
+                                            { name: 'Conferences', icon: '🎤', color: 'from-blue/20 to-blue/5', img: '/images/landing/event-summit.jpg' },
+                                            { name: 'Sports', icon: '⚽', color: 'from-green/20 to-green/5', img: '/images/landing/event-stadium.jpg' },
+                                            { name: 'Workshops', icon: '🛠', color: 'from-yellow/20 to-yellow/5', img: '/images/landing/event-workshop.jpg' },
                                         ].map((cat) => (
                                             <Link
                                                 key={cat.name}
                                                 href="/register"
-                                                className={`p-6 rounded-2xl border border-rim bg-gradient-to-b ${cat.color} text-center hover:border-white/20 transition-colors`}
+                                                className={`relative p-6 rounded-2xl border border-rim bg-gradient-to-b ${cat.color} text-center hover:border-white/20 transition-colors overflow-hidden group`}
                                             >
-                                                <div className="text-3xl mb-3">{cat.icon}</div>
-                                                <div className="font-semibold text-white text-sm">{cat.name}</div>
+                                                <img src={cat.img} alt={cat.name} className="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:opacity-30 transition-opacity" />
+                                                <div className="relative text-3xl mb-3">{cat.icon}</div>
+                                                <div className="relative font-semibold text-white text-sm">{cat.name}</div>
                                             </Link>
                                         ))}
                                     </div>
