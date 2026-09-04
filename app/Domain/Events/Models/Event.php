@@ -36,6 +36,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property float|null $refund_policy_percentage
  * @property bool $is_featured
  * @property float|null $trending_score
+ * @property string|null $cover_url
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
@@ -65,6 +66,7 @@ class Event extends Model implements Auditable, HasMedia
         'refund_policy_percentage',
         'is_featured',
         'trending_score',
+        'cover_url',
     ];
 
     protected function casts(): array
@@ -159,6 +161,10 @@ class Event extends Model implements Auditable, HasMedia
 
     public function coverUrl(): ?string
     {
+        if ($this->cover_url) {
+            return $this->cover_url;
+        }
+
         $media = $this->getFirstMedia('cover');
         if ($media) {
             return $media->getFullUrl();

@@ -168,10 +168,13 @@ class EventSeeder extends Seeder
             $galleryIds = $eventData['gallery_ids'];
             unset($eventData['start_date'], $eventData['image_id'], $eventData['gallery_ids']);
 
+            $coverUrl = $this->unsplashUrl($imageId);
+
             $event = Event::create(array_merge($eventData, [
                 'organization_id' => $org->id,
                 'slug' => Str::slug($eventData['title']),
                 'status' => 'published',
+                'cover_url' => $coverUrl,
             ]));
 
             $event->sessions()->create([
@@ -181,26 +184,7 @@ class EventSeeder extends Seeder
                 'sort_order' => 0,
             ]);
 
-            // Download cover image from Unsplash and attach via Spatie Media Library
-            try {
-                $coverUrl = $this->unsplashUrl($imageId);
-                $event->addMediaFromUrl($coverUrl)->toMediaCollection('cover');
-                $this->command->info("  Cover image attached for: {$event->title}");
-            } catch (\Exception $e) {
-                $this->command->warn("  Failed to attach cover image for {$event->title}: {$e->getMessage()}");
-            }
-
-            // Download gallery images
-            foreach ($galleryIds as $galleryId) {
-                try {
-                    $galleryUrl = $this->unsplashUrl($galleryId, 800, 500);
-                    $event->addMediaFromUrl($galleryUrl)->toMediaCollection('gallery');
-                } catch (\Exception $e) {
-                    $this->command->warn("  Failed to attach gallery image for {$event->title}: {$e->getMessage()}");
-                }
-            }
-
-            $this->command->info("Created event: {$event->title}");
+            $this->command->info("Created event: {$event->title} (cover: {$coverUrl})");
         }
     }
 }
