@@ -543,6 +543,7 @@ export default function HomePage({
                                 </section>
                             </>
                         )}
+                    </>
                 ) : (
                     <section>
                         <div className="mb-6">
