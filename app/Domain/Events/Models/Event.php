@@ -159,7 +159,24 @@ class Event extends Model implements Auditable, HasMedia
 
     public function coverUrl(): ?string
     {
-        return $this->getFirstMedia('cover')?->getFullUrl();
+        $media = $this->getFirstMedia('cover');
+        if ($media) {
+            return $media->getFullUrl();
+        }
+
+        $categoryFallbacks = [
+            'Festivals' => '/images/landing/event-festival.jpg',
+            'Concerts' => '/images/landing/event-jazz.jpg',
+            'Conferences' => '/images/landing/event-summit.jpg',
+            'Sports' => '/images/landing/event-stadium.jpg',
+            'Workshops' => '/images/landing/event-workshop.jpg',
+            'Comedy' => '/images/landing/event-gallery.jpg',
+            'Cultural' => '/images/landing/event-festival.jpg',
+            'Business' => '/images/landing/event-summit.jpg',
+            'Networking' => '/images/landing/event-warehouse.jpg',
+        ];
+
+        return $categoryFallbacks[$this->category] ?? '/images/landing/hero-crowd.jpg';
     }
 
     /** @return string[] */
