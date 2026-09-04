@@ -10,14 +10,14 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('eventhub_events', function (Blueprint $table) {
+        Schema::table('events', function (Blueprint $table) {
             $table->string('cover_url')->nullable()->after('trending_score');
         });
     }
 
     public function down(): void
     {
-        Schema::table('eventhub_events', function (Blueprint $table) {
+        Schema::table('events', function (Blueprint $table) {
             $table->dropColumn('cover_url');
         });
     }

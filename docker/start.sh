@@ -56,7 +56,7 @@ php artisan tinker --execute="
 ];
 \$count = 0;
 foreach (\$events as \$title => \$url) {
-    \$updated = DB::table('eventhub_events')->where('title', \$title)->whereNull('cover_url')->update(['cover_url' => \$url]);
+    \$updated = DB::table('events')->where('title', \$title)->whereNull('cover_url')->update(['cover_url' => \$url]);
     \$count += \$updated;
 }
 echo \"Backfilled cover_url for {\$count} events\\n\";
