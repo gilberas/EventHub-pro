@@ -11,8 +11,32 @@ php artisan key:generate --force || true
 # Clear any cached config that might have stale DB settings
 php artisan config:clear 2>&1 || true
 
+# Drop orphaned permission tables AND their indexes from failed previous migrations
+php artisan tinker --execute="
+DB::statement('DROP TABLE IF EXISTS eventhub_role_has_permissions CASCADE');
+DB::statement('DROP TABLE IF EXISTS eventhub_model_has_roles CASCADE');
+DB::statement('DROP TABLE IF EXISTS eventhub_model_has_permissions CASCADE');
+DB::statement('DROP TABLE IF EXISTS eventhub_roles CASCADE');
+DB::statement('DROP TABLE IF EXISTS eventhub_permissions CASCADE');
+DB::table('migrations')->where('migration','LIKE','%create_permission_tables%')->delete();
+// Also drop any orphaned indexes with unprefixed names from previous failed runs
+foreach([
+    'model_has_permissions_model_id_model_type_index',
+    'model_has_permissions_team_foreign_key_index',
+    'model_has_permissions_permission_model_type_primary',
+    'model_has_roles_model_id_model_type_index',
+    'model_has_roles_team_foreign_key_index',
+    'model_has_roles_role_model_type_primary',
+    'model_has_roles_organization_role_model_type_unique',
+    'role_has_permissions_permission_id_role_id_primary',
+    'roles_team_foreign_key_index',
+] as \$idx) {
+    DB::statement('DROP INDEX IF EXISTS '.\$idx);
+}
+" 2>&1 || true
+
 # Run database migrations FIRST (before caching config)
-php artisan migrate --force 2>&1 || true
+php artisan migrate --force 2>&1
 
 # Cache config/routes/views for performance
 php artisan config:cache
